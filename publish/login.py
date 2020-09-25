@@ -1,5 +1,5 @@
 import requests
-from headers import set_base_headers, set_login_headers
+from  publish.headers import set_base_headers, set_login_headers
 autorization_data = {'login': 'harold', 'password': '@topwatch'}
 
 
