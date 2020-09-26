@@ -25,8 +25,8 @@ def get_data(fetch_site):
         write_hamiltonwatch()
         return send_file(sys.path[0] + '/fetch/output/output_{}.csv'.format(fetch_site),
                          mimetype='text/csv')
-    except:
-        return 'invalid data'
+    except Exception as ex:
+        return str(ex)
 
 
 @api.route('/send-new-file/<fetch_site>', methods=['POST'])
@@ -37,8 +37,8 @@ def push_new_file(fetch_site):
                  '/fetch/output/output_{}.csv'.format(fetch_site), 'wb')
         f.write(data)
         return 'ok'
-    except:
-        return 'invalid data'
+    except Exception as ex:
+        return str(ex)
 
 
 @api.route('/publish/<fetch_site>', methods=['POST'])
@@ -46,5 +46,5 @@ def publish_data(fetch_site):
     try:
         logs = publish(fetch_site)
         return 'logs: ' + logs
-    except:
-        return 'fail'
+    except Exception as ex:
+        return str(ex)
