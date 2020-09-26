@@ -19,6 +19,9 @@ def get_data(fetch_site):
                  '/fetch/input/input_{}.csv'.format(fetch_site), 'wb')
         f.write(data)
         f.close()
+        f = open(sys.path[0] +
+                 '/fetch/output/output_{}.csv'.format(fetch_site), 'w')
+        f.close()
         write_hamiltonwatch()
         return send_file(sys.path[0] + '/fetch/output/output_{}.csv'.format(fetch_site),
                          mimetype='text/csv')
