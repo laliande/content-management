@@ -1,4 +1,8 @@
-def set_base_headers():
+def set_base_headers() -> dict:
+    ''' Description: sets the basic request headers
+        Output: headers
+
+    '''
     headers = {
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
@@ -13,7 +17,11 @@ def set_base_headers():
     return headers
 
 
-def set_login_headers():
+def set_login_headers() -> dict:
+    ''' Description: sets the login request headers
+        Output: headers
+
+    '''
     headers = set_base_headers()
     headers.update({
         'Cache-Control': 'max-age=0',
@@ -25,7 +33,11 @@ def set_login_headers():
     return headers
 
 
-def set_publish_headers():
+def set_publish_headers() -> dict:
+    ''' Description: sets the publish request headers
+        Output: headers
+
+    '''
     headers = set_base_headers()
     headers.update({
         "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",

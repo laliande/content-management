@@ -4,7 +4,12 @@ from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 
 
-def find_url_hamiltonwatch(art):
+def find_url_hamiltonwatch(art: str) -> str:
+    ''' Description: finds the url on the site by article
+        Input: article
+        Output: desired url
+
+    '''
     url = 'https://www.hamiltonwatch.com/ru-ru/catalogsearch/result/?q={}'.format(
         art)
     req = Request(url)
@@ -15,7 +20,12 @@ def find_url_hamiltonwatch(art):
     return product_item_link
 
 
-def fetch_hamiltonwatch(art):
+def fetch_hamiltonwatch(art: str) -> dict:
+    ''' Description: parses data and returns it in the format of the publication
+        Input: article
+        Output: product details
+
+    '''
     result = {'vendor': '', 'coll': '',
               'seoSuffix': '', 'article': art, 'sex': '', 'mechanism': '', 'diametr': '',
               'thicknes': '', 'corpus': '', 'glass': '', 'braslet': '', 'water': '', 'function': '',
@@ -53,7 +63,11 @@ def fetch_hamiltonwatch(art):
         return result
 
 
-def write_hamiltonwatch():
+def write_hamiltonwatch() -> None:
+    ''' Description: writes data to a file for return
+        Output: None
+
+    '''
     len_output = os.path.getsize(
         'fetch/output/output_hamiltonwatch.csv')
     headers = False

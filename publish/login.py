@@ -1,16 +1,24 @@
 import requests
-from  publish.headers import set_base_headers, set_login_headers
+from publish.headers import set_base_headers, set_login_headers
 autorization_data = {'login': 'harold', 'password': '@topwatch'}
 
 
-def get_sid_cookie():
+def get_sid_cookie() -> str:
+    ''' Description: sets the primary cookie for the request
+        Output: sid cookie
+
+    '''
     headers = set_base_headers()
     URL = 'https://www.haroldltd.ru/cms2'
     response = requests.get(url=URL, headers=headers)
     return response.cookies['sid']
 
 
-def get_login_cookie():
+def get_login_cookie() -> dict:
+    ''' Description: sets cookies for the login request
+        Output: login cookies
+
+    '''
     sid = get_sid_cookie()
     URL = 'https://www.haroldltd.ru/cms2/instruction.php'
     headers = set_login_headers()
@@ -20,7 +28,11 @@ def get_login_cookie():
     return cookies
 
 
-def login():
+def login() -> dict:
+    ''' Description: makes a login request and returns cookies after login
+        Output: after login cookies
+
+    '''
     headers = set_login_headers()
     cookies = get_login_cookie()
     URL = 'https://www.haroldltd.ru/cms2/login.php'
