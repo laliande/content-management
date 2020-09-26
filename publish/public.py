@@ -51,7 +51,7 @@ def publish(fetch_site: str) -> str:
         headers = set_publish_headers()
         response = requests.post(
             url=URL, data=item, headers=headers, cookies=cookies)
-        logs.append(response.text)
+        logs.append(str(response.text))
     for log in logs:
         response += log + ' '
     return response
