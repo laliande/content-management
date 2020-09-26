@@ -59,9 +59,8 @@ def write_hamiltonwatch():
     headers = False
     if len_output == 0:
         headers = True
-    with open('fetch/input/hamiltonwatch.csv', 'r', encoding='utf-8') as csvinput:
+    with open('fetch/input/input_hamiltonwatch.csv', 'r', encoding='utf-8') as csvinput:
         with open('fetch/output/output_hamiltonwatch.csv', 'a', encoding='utf-8') as csvoutput:
-            # writer = csv.writer(csvoutput, lineterminator='\n')
             reader = csv.reader(csvinput)
             for row in reader:
                 if row[0] != 'article':
