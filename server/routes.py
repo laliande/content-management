@@ -2,7 +2,7 @@ from server.app import app
 from flask import send_file
 from flask import Flask
 from flask import request
-from fetch.hamiltonwatch import write_hamiltonwatch
+from fetch.fetch_data import write
 from publish.public import publish
 import csv
 from flask import Blueprint
@@ -22,7 +22,7 @@ def get_data(fetch_site):
         f = open(sys.path[0] +
                  '/fetch/output/output_{}.csv'.format(fetch_site), 'w')
         f.close()
-        write_hamiltonwatch()
+        write(fetch_site)
         return send_file(sys.path[0] + '/fetch/output/output_{}.csv'.format(fetch_site),
                          mimetype='text/csv')
     except Exception as ex:

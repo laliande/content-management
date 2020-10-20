@@ -1,5 +1,3 @@
-import os
-import csv
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 
@@ -61,26 +59,3 @@ def fetch_hamiltonwatch(art: str) -> dict:
         print(ex)
     finally:
         return result
-
-
-def write_hamiltonwatch() -> None:
-    ''' Description: writes data to a file for return
-        Output: None
-
-    '''
-    len_output = os.path.getsize(
-        'fetch/output/output_hamiltonwatch.csv')
-    headers = False
-    if len_output == 0:
-        headers = True
-    with open('fetch/input/input_hamiltonwatch.csv', 'r', encoding='utf-8') as csvinput:
-        with open('fetch/output/output_hamiltonwatch.csv', 'a', encoding='utf-8') as csvoutput:
-            reader = csv.reader(csvinput)
-            for row in reader:
-                if row[0] != 'article':
-                    data = fetch_hamiltonwatch(row[0])
-                    writer = csv.DictWriter(csvoutput, fieldnames=data)
-                    if headers:
-                        headers = False
-                        writer.writeheader()
-                    writer.writerow(data)

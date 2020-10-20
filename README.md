@@ -15,3 +15,8 @@
 
 #### Step 4
 ##### Publish data to site: send POST request to ```http://0.0.0.0:5000/api/publish/hamiltonwatch```
+
+
+## SITES:
+### https://www.hamiltonwatch.com/: hamiltonwatch
+### https://www.tissotwatches.com/: tissotwatches
