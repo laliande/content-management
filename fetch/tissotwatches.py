@@ -13,6 +13,13 @@ def find_url_tissotwatches(art: str) -> str:
     req = Request(url)
     html_page = urlopen(req)
     soup = BeautifulSoup(html_page, "lxml")
+    try:
+        not_found = soup.find(
+            'p', attrs={'class': 'collection-header__message'}).text
+        if 'По вашему запросу ничего не найдено.' in not_found:
+            return 'fail'
+    except:
+        pass
     product_item_link = soup.find(
         'a', attrs={'class': 'product-thumbnail product-item-link'}).attrs
     return product_item_link['href']
@@ -61,6 +68,8 @@ def fetch_tissotwatches(art: str) -> dict:
 
     try:
         url = find_url_tissotwatches(art)
+        if url == 'fail':
+            return result
         req = Request(url)
         html_page = urlopen(req)
         soup = BeautifulSoup(html_page, "lxml")
