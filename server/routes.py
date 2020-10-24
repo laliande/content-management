@@ -29,22 +29,22 @@ def get_data(fetch_site):
         return str(ex)
 
 
-@api.route('/send-new-file/<fetch_site>', methods=['POST'])
-def push_new_file(fetch_site):
+@api.route('/send-new-file/', methods=['POST'])
+def push_new_file():
     try:
         data = request.get_data()
         f = open(sys.path[0] +
-                 '/fetch/output/output_{}.csv'.format(fetch_site), 'wb')
+                 '/fetch/output/output.csv', 'wb')
         f.write(data)
         return 'ok'
     except Exception as ex:
         return str(ex)
 
 
-@api.route('/publish/<fetch_site>', methods=['POST'])
-def publish_data(fetch_site):
+@api.route('/publish/', methods=['POST'])
+def publish_data():
     try:
-        logs = publish(fetch_site)
+        logs = publish()
         return 'logs: ' + logs
     except Exception as ex:
         return str(ex)

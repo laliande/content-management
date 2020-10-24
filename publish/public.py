@@ -7,14 +7,13 @@ import sys
 import csv
 
 
-def get_data(fetch_site: str) -> list:
+def get_data() -> list:
     ''' Description: retrieves data from the edited file
-        Input: site name
         Output: data from the file
 
     '''
     all = []
-    with open(sys.path[0] + '/fetch/output/output_{}.csv'.format(fetch_site), 'r', encoding='utf-8') as file:
+    with open(sys.path[0] + '/fetch/output/output.csv', 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
             all.append(row)
@@ -34,14 +33,13 @@ def encode(data: dict) -> str:
     return result[0:-1]
 
 
-def publish(fetch_site: str) -> str:
+def publish() -> str:
     ''' Description: publishes data on the site
-        Input: site name
         Output: publish logs
 
     '''
     cookies = login()
-    data = get_data(fetch_site)
+    data = get_data()
     logs = []
     response = ''
     for item in data:
