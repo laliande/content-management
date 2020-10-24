@@ -29,33 +29,44 @@ def fetch_hamiltonwatch(art: str) -> dict:
               'thicknes': '', 'corpus': '', 'glass': '', 'braslet': '', 'water': '', 'function': '',
               'dopoform_fake': '', 'dopoform': '', 'form': '', 'caliber': '', 'colorDial': '', 'colorWristlet': '',
               'exit': '', 'price': '', 'youtube': '', 'id': '', 'update': ''}
+    url = find_url_hamiltonwatch(art)
+    req = Request(url)
+    html_page = urlopen(req)
+    soup = BeautifulSoup(html_page, "lxml")
 
-    try:
-        url = find_url_hamiltonwatch(art)
-        req = Request(url)
-        html_page = urlopen(req)
-        soup = BeautifulSoup(html_page, "lxml")
-        result['price'] = soup.body.find(
-            'span', attrs={'data-price-type': 'finalPrice'}).attrs['data-price-amount']
-        result['caliber'] = soup.body.find(
-            'td', attrs={'data-th': 'Caliber'}).text
-        result['coll'] = soup.body.find('td', attrs={
-            'data-th': 'Коллекция'}).text
-        result['mechanism'] = soup.body.find(
-            'td', attrs={'data-th': 'Механизм'}).text
-        result['diametr'] = soup.body.find(
-            'td', attrs={'data-th': 'Размеры корпуса'}).text
-        result['colorDial'] = soup.body.find(
-            'td', attrs={'data-th': 'Цвет циферблата'}).text
-        result['corpus'] = soup.body.find(
-            'td', attrs={'data-th': 'Материал корпуса'}).text
-        result['glass'] = soup.body.find(
-            'td', attrs={'data-th': 'Стекло циферблата'}).text
-        result['water'] = soup.body.find(
-            'td', attrs={'data-th': 'Водонепроницаемость'}).text
-        result['colorWristlet'] = soup.body.find(
-            'td', attrs={'data-th': 'Цвет ремешка'}).text
-    except Exception as ex:
-        print(ex)
-    finally:
-        return result
+    for key, value in result.items():
+        try:
+            if key == 'price':
+                result['price'] = soup.body.find(
+                    'span', attrs={'data-price-type': 'finalPrice'}).attrs['data-price-amount']
+            elif key == 'caliber':
+                result['caliber'] = soup.body.find(
+                    'td', attrs={'data-th': 'Caliber'}).text
+            elif key == 'coll':
+                result['coll'] = soup.body.find('td', attrs={
+                    'data-th': 'Коллекция'}).text
+            elif key == 'mechanism':
+                result['mechanism'] = soup.body.find(
+                    'td', attrs={'data-th': 'Механизм'}).text
+            elif key == 'diametr':
+                result['diametr'] = soup.body.find(
+                    'td', attrs={'data-th': 'Размеры корпуса'}).text
+            elif key == 'colorDial':
+                result['colorDial'] = soup.body.find(
+                    'td', attrs={'data-th': 'Цвет циферблата'}).text
+            elif key == 'corpus':
+                result['corpus'] = soup.body.find(
+                    'td', attrs={'data-th': 'Материал корпуса'}).text
+            elif key == 'glass':
+                result['glass'] = soup.body.find(
+                    'td', attrs={'data-th': 'Стекло циферблата'}).text
+            elif key == 'water':
+                result['water'] = soup.body.find(
+                    'td', attrs={'data-th': 'Водонепроницаемость'}).text
+            elif key == 'colorWristlet':
+                result['colorWristlet'] = soup.body.find(
+                    'td', attrs={'data-th': 'Цвет ремешка'}).text
+        except Exception as ex:
+            print(ex)
+            continue
+    return result
