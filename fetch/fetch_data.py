@@ -2,6 +2,7 @@ import os
 import csv
 from fetch.hamiltonwatch import fetch_hamiltonwatch
 from fetch.tissotwatches import fetch_tissotwatches
+from fetch.longines import fetch_longines
 
 
 def fetch(site: str, article: str) -> dict:
@@ -15,6 +16,8 @@ def fetch(site: str, article: str) -> dict:
         data = fetch_hamiltonwatch(article)
     elif site == 'tissotwatches':
         data = fetch_tissotwatches(article)
+    elif site == 'longines':
+        data = fetch_longines(article)
     return data
 
 
