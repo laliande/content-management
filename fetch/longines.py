@@ -1,5 +1,56 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
+import requests
+
+
+def find_art_and_coll(url: str) -> tuple:
+    ''' Description: find collection and artecle
+        Input: product url
+        Output: artecle and collection
+
+    '''
+    data_list = url.split('/')
+    return (data_list[-1], data_list[-2])
+
+
+def clean_price(bad_price: str) -> str:
+    ''' Description: clears the string of unfit symbols
+        Input: bad string
+        Output: good string
+
+    '''
+    result = ''
+    for symbol in bad_price:
+        try:
+            int(symbol)
+            result += symbol
+        except:
+            pass
+    return result
+
+
+def get_price(url: str) -> str:
+    ''' Description: get price in SPA site
+        Input: product url
+        Output: price
+
+    '''
+    about_product = find_art_and_coll(url)
+    headers = {"accept": "*/*",
+               "accept-language": "ru,en;q=0.9",
+               "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+               "sec-fetch-dest": "empty",
+               "sec-fetch-mode": "cors",
+               "sec-fetch-site": "same-origin",
+               "x-requested-with": "XMLHttpRequest",
+               "referrer": url}
+    url = "https://www.longines.com/ru/watch/getprice"
+    body = 'lang=ru-ru&altlang=ru%2F&collection={}&urlname={}'.format(
+        about_product[1], about_product[0])
+    req = requests.post(url=url, headers=headers, data=body)
+    soup = BeautifulSoup(req.text, "lxml")
+    price = clean_price(soup.body.find('span').text)
+    return price
 
 
 def find_url_longines(art: str) -> str:
@@ -65,6 +116,8 @@ def fetch_longines(art: str) -> dict:
         try:
             if key == 'vendor':
                 result['vendor'] = 'Longines'
+            elif key == 'price':
+                result['price'] = get_price(url)
             elif key == 'article':
                 result['article'] = soup.body.find(
                     'div', attrs={'class': 'watch-ref'}).text
