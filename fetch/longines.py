@@ -106,11 +106,13 @@ def fetch_longines(art: str) -> dict:
               'thicknes': '', 'corpus': '', 'glass': '', 'braslet': '', 'water': '', 'function': '',
               'dopoform_fake': '', 'dopoform': '', 'form': '', 'caliber': '', 'colorDial': '', 'colorWristlet': '',
               'exit': '', 'price': '', 'youtube': '', 'id': '', 'update': ''}
-
-    url = find_url_longines(art)
-    req = Request(url)
-    html_page = urlopen(req)
-    soup = BeautifulSoup(html_page, "lxml")
+    try:
+        url = find_url_longines(art)
+        req = Request(url)
+        html_page = urlopen(req)
+        soup = BeautifulSoup(html_page, "lxml")
+    except Exception as ex:
+        print(ex)
 
     for key, value in result.items():
         try:
