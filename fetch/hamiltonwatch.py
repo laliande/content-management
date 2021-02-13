@@ -44,9 +44,24 @@ def fetch_hamiltonwatch(art: str) -> dict:
             elif key == 'caliber':
                 result['caliber'] = soup.body.find(
                     'td', attrs={'data-th': 'Caliber'}).text
+            elif key == 'seoSuffix':
+                result['seoSuffix'] = soup.body.find(
+                    'span', attrs={'data-ui-id': 'page-title-wrapper'}).text
+            elif key == 'dopoform':
+                result['dopoform'] = soup.body.find(
+                    'div', attrs={'class': 'value'}).text
             elif key == 'coll':
                 result['coll'] = soup.body.find('td', attrs={
                     'data-th': 'Коллекция'}).text
+            elif key == 'braslet':
+                result['braslet'] = soup.body.find('td', attrs={
+                    'data-th': 'Тип ремешка'}).text
+            elif key == 'sex':
+                result['sex'] = soup.body.find('td', attrs={
+                    'data-th': 'Пол'}).text
+            elif key == 'function':
+                result['function'] = soup.body.find('td', attrs={
+                    'data-th': 'Запас хода'}).text
             elif key == 'mechanism':
                 result['mechanism'] = soup.body.find(
                     'td', attrs={'data-th': 'Механизм'}).text

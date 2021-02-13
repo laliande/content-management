@@ -84,6 +84,12 @@ def fetch_tissotwatches(art: str) -> dict:
             elif key == 'caliber':
                 result['caliber'] = soup.body.find(
                     'h4', text='Модель').find_next_siblings()[0].text
+            elif key == 'sex':
+                result['sex'] = soup.body.find(
+                    'h4', text='Пол').find_next_siblings()[0].text
+            elif key == 'diametr':
+                result['diametr'] = soup.body.find(
+                    'h4', text='Длина').find_next_siblings()[0].text
             elif key == 'coll':
                 result['coll'] = soup.body.find(
                     'h4', text='Коллекция').find_next_siblings()[0].text
