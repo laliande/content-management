@@ -5,12 +5,14 @@ from fetch.tissotwatches import fetch_tissotwatches
 from fetch.longines import fetch_longines
 
 
+
 def fetch(site: str, article: str) -> dict:
     ''' Description: fetch data for site
         Input: site
         Output: data about products
 
     '''
+    log.info('Fetching site is ' + site)
     data = {}
     if site == 'hamiltonwatch':
         data = fetch_hamiltonwatch(article)
@@ -36,6 +38,7 @@ def write(site: str) -> None:
         with open('fetch/output/output_{}.csv'.format(site), 'a', encoding='utf-8') as csvoutput:
             reader = csv.reader(csvinput)
             for row in reader:
+                log.debug('Row in input file is ' + row)
                 if row[0] != 'article':
                     data = fetch(site, row[0])
                     writer = csv.DictWriter(csvoutput, fieldnames=data)

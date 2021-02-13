@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 
 
+
 def find_url_tissotwatches(art: str) -> str:
     ''' Description: finds the url on the site by article
         Input: article
@@ -10,9 +11,12 @@ def find_url_tissotwatches(art: str) -> str:
 
     '''
     url = 'https://www.tissotwatches.com/ru-ru/shop/{}.html'.format(art)
+    log.debug('Start tissot url is ' + url)
     if requests.get(url).history:
+        log.debug('Is redirect in history fetch')
         url = 'https://www.tissotwatches.com/ru-ru/shop/catalogsearch/result/?q={}'.format(
             art)
+        log.debug('Reddirecting tissot url is ' + url)
         if requests.get(url).history:
             return None
         req = requests.get(url)
@@ -21,6 +25,7 @@ def find_url_tissotwatches(art: str) -> str:
         soup = BeautifulSoup(html_page, "lxml")
         product_item_link = soup.find(
             'a', attrs={'class': 'product-thumbnail product-item-link'}).attrs
+        log.info('Tissot product item link for article ' + art + ' is ' + product_item_link)
         return product_item_link['href']
     return url
 
@@ -38,6 +43,8 @@ def find_price(bad_price: str):
             result += symbol
         except Exception as ex:
             pass
+    log.debug('Tissot bad price is ' + bad_price)
+    log.debug('Tissot good price is ' + result)
     return result
 
 
@@ -51,6 +58,8 @@ def find_article(bad_article: str):
     for symbol in bad_article:
         if symbol != ' ' and symbol != '\n':
             result += symbol
+    log.debug('Tissot bad article is ' + bad_article)
+    log.debug('Tissot good article is ' + result)
     return result
 
 
@@ -67,6 +76,7 @@ def fetch_tissotwatches(art: str) -> dict:
               'exit': '', 'price': '', 'youtube': '', 'id': '', 'update': ''}
     url = find_url_tissotwatches(art)
     if url is None:
+        log.warning('Tissot clock not found!')
         return result
     req = Request(url)
     html_page = urlopen(req)
@@ -76,54 +86,72 @@ def fetch_tissotwatches(art: str) -> dict:
             if key == 'price':
                 result['price'] = find_price(soup.body.find(
                     'span', attrs={'class': 'product-price'}).text)
+                log.debug('Tissot price for article ' + art + 'is '+  result['price'])
             elif key == 'vendor':
                 result['vendor'] = 'Tissot'
+                log.debug('Tissot vendor for article ' + art + 'is ' + result['vendor'])
             elif key == 'article':
                 result['article'] = find_article(soup.body.find(
                     'p', attrs={'class': 'product-sku'}).text)
+                log.debug('Tissot article for article ' + art + 'is ' + result['article'])
             elif key == 'caliber':
                 result['caliber'] = soup.body.find(
                     'h4', text='Модель').find_next_siblings()[0].text
+                log.debug('Tissot caliber for article ' + art + 'is ' + result['caliber'])
             elif key == 'sex':
                 result['sex'] = soup.body.find(
                     'h4', text='Пол').find_next_siblings()[0].text
+                log.debug('Tissot sex for article ' + art + 'is ' + result['sex'])
             elif key == 'diametr':
                 result['diametr'] = soup.body.find(
                     'h4', text='Длина').find_next_siblings()[0].text
+                log.debug('Tissot diametr for article ' + art + 'is ' + result['diametr'])
             elif key == 'coll':
                 result['coll'] = soup.body.find(
                     'h4', text='Коллекция').find_next_siblings()[0].text
+                log.debug('Tissot collection for article ' + art + 'is ' + result['coll'])
             elif key == 'mechanism':
                 result['mechanism'] = soup.body.find(
                     'h4', text='Механизм').find_next_siblings()[0].text
+                log.debug('Tissot mechanism for article ' + art + 'is ' + result['mechanism'])
             elif key == 'colorDial':
                 result['colorDial'] = soup.body.find(
                     'h4', text='Цвет циферблата').find_next_siblings()[0].text
+                log.debug('Tissot color dial for article ' + art + 'is ' + result['colorDial'])
             elif key == 'corpus':
                 result['corpus'] = soup.body.find(
                     'h4', text='Материал корпуса').find_next_siblings()[0].text
+                log.debug('Tissot corpus for article ' + art + 'is ' + result['corpus'])
             elif key == 'glass':
                 result['glass'] = soup.body.find(
                     'h4', text='Стекло').find_next_siblings()[0].text
+                log.debug('Tissot glass for article ' + art + 'is ' + result['glass'])
             elif key == 'water':
                 result['water'] = soup.body.find(
                     'h4', text='Водонепроницаемость').find_next_siblings()[0].text
+                log.debug('Tissot water for article ' + art + 'is ' + result['water'])
             elif key == 'colorWristlet':
                 result['colorWristlet'] = soup.body.find(
                     'h4', text='Цвет ремешка/браслета').find_next_siblings()[0].text
+                log.debug('Tissot color wristlet for article ' + art + 'is ' + result['colorWristlet'])
             elif key == 'thicknes':
                 result['thicknes'] = soup.body.find(
                     'h4', text='Толщина').find_next_siblings()[0].text
+                log.debug('Tissot thicknes for article ' + art + 'is ' + result['thicknes'])
             elif key == 'braslet':
                 result['braslet'] = soup.body.find(
                     'h4', text='Оформление ремешка/браслета').find_next_siblings()[0].text
+                log.debug('Tissot braslet for article ' + art + 'is ' + result['braslet'])
             elif key == 'form':
                 result['form'] = soup.body.find(
                     'h4', text='Форма корпуса').find_next_siblings()[0].text
+                log.debug('Tissot form for article ' + art + 'is ' + result['form'])
             elif key == 'seoSuffix':
                 result['seoSuffix'] = soup.body.find(
                     'div', attrs={'class': 'reserve-product'}).text
+                log.debug('Tissot seo suffix for article ' + art + 'is ' + result['seoSuffix'])
         except Exception as ex:
+            log.error(ex)
             print(ex)
             continue
     return result
