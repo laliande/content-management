@@ -42,7 +42,7 @@ def get_small_img(d:str, art:str):
   response=requests.get(url)
   print(response)
   if response.status_code==200:
-    with open(r'/home/anton/AI_Image/big/' + filename,'wb') as imgfile:
+    with open(r'/home/anton/AI_Image/small/' + filename,'wb') as imgfile:
       imgfile.write(response.content)
       print("Маленькое изображение сохранено")
   else:
