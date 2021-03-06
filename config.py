@@ -12,3 +12,5 @@ formatter = logging.Formatter(
 rotatingHandler.setFormatter(formatter)
 logging.getLogger('').addHandler(rotatingHandler)
 log = logging.getLogger("content_managment " + __name__)
+
+# Пососи мою писю
