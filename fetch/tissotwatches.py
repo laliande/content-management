@@ -19,6 +19,7 @@ def find_url_tissotwatches(art: str) -> str:
     res = service.cse().list(q=search_term, cx=autorization_data["cse_id"]).execute()
     return res['items'][0]['link']
 
+
 def find_price(bad_price: str):
     ''' Description: clean price
         Input: bad price
@@ -158,6 +159,6 @@ def fetch_tissotwatches(art: str) -> dict:
             print(ex)
             continue
     img_url = get_img(soup)
-    proc_img(link, result['diametr'], art)
+    proc_img(img_url, result['diametr'], art)
     return result
 
