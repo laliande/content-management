@@ -1,12 +1,12 @@
 import requests
-from cloudinary.uploader import upload
-import cloudinary
+# from cloudinary.uploader import upload
+# import cloudinary
 
-cloudinary.config(
-  cloud_name = 'dtmd0zvey',  
-  api_key = '336926953387248',  
-  api_secret = 'XiFAv-ZuHYCjEnGqfxP4-XxnLhQ'  
-)
+# cloudinary.config(
+#   cloud_name = 'dtmd0zvey',  
+#   api_key = '336926953387248',  
+#   api_secret = 'XiFAv-ZuHYCjEnGqfxP4-XxnLhQ'  
+# )
 
 
 diametr_dict = {'w_85': [20.00, 21.99],
@@ -22,6 +22,7 @@ diametr_dict = {'w_85': [20.00, 21.99],
                 'w_154': [41.00, 43.99],
                 'w_156': [44.00, 47.99]
                 }
+              
 
 def upload(link:str) -> None:
   cloudinary.uploader.upload(link, public_id = art)
@@ -31,7 +32,6 @@ def get_width(d:str) -> str:
   for key, value in diametr_dict.items():
     if d >= value[0] and d <= value[1]:
       return key
-
 
 def get_small_img(d:str, art:str):
   width = get_width(d)
