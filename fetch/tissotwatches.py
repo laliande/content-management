@@ -1,8 +1,11 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import requests
+from googleapiclient.discovery import build
 
-
+autorization_data = {
+"api_key": "AIzaSyANUOyyWbw-mnsCHM15HerBlk2tsMtRQdQ",
+"cse_id": "ea5b078f2fc0024f0"}
 
 def find_url_tissotwatches(art: str) -> str:
     ''' Description: finds the url on the site by article
@@ -10,25 +13,10 @@ def find_url_tissotwatches(art: str) -> str:
         Output: desired url
 
     '''
-    url = 'https://www.tissotwatches.com/ru-ru/shop/{}.html'.format(art)
-    log.debug('Start tissot url is ' + url)
-    if requests.get(url).history:
-        log.debug('Is redirect in history fetch')
-        url = 'https://www.tissotwatches.com/ru-ru/shop/catalogsearch/result/?q={}'.format(
-            art)
-        log.debug('Reddirecting tissot url is ' + url)
-        if requests.get(url).history:
-            return None
-        req = requests.get(url)
-        req = Request(url)
-        html_page = urlopen(req)
-        soup = BeautifulSoup(html_page, "lxml")
-        product_item_link = soup.find(
-            'a', attrs={'class': 'product-thumbnail product-item-link'}).attrs
-        log.info('Tissot product item link for article ' + art + ' is ' + product_item_link)
-        return product_item_link['href']
-    return url
-
+    search_term = "{} site:https://www.tissotwatches.com/ru-ru/".format(art)
+    service = build("customsearch", "v1", developerKey=autorization_data["api_key"])
+    res = service.cse().list(q=search_term, cx=autorization_data["cse_id"]).execute()
+    return res['items'][0]['link']
 
 def find_price(bad_price: str):
     ''' Description: clean price
