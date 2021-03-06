@@ -2,6 +2,7 @@ from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import requests
 from googleapiclient.discovery import build
+from img_proc.cloudinary import upload, get_small_img, get_big_img
 
 autorization_data = {
 "api_key": "AIzaSyANUOyyWbw-mnsCHM15HerBlk2tsMtRQdQ",
@@ -50,6 +51,18 @@ def find_article(bad_article: str):
     log.debug('Tissot good article is ' + result)
     return result
 
+def get_img_url(soup:BeautifulSoup) -> str:
+    macro_elem = soup.body.find('div', attrs = {'class':'product-mosaic__img-container'})
+    img_elem = macro_elem.findChildren("img" , recursive=False)
+    img_url = img_url[0].attrs['src']
+    log.debug('Img url: ' + img_url)
+    return img_url
+
+def proc_img(link:str, art:str, d:str):
+    upload_img(link)
+    get_img_url(d, art)
+    get_big_url(art)
+
 
 def fetch_tissotwatches(art: str) -> dict:
     ''' Description: parses data and returns it in the format of the publication
@@ -69,6 +82,8 @@ def fetch_tissotwatches(art: str) -> dict:
     req = Request(url)
     html_page = urlopen(req)
     soup = BeautifulSoup(html_page, "lxml")
+    log.info("Getting img")
+    log.info("Getting params")
     for key, value in result.items():
         try:
             if key == 'price':
@@ -142,4 +157,7 @@ def fetch_tissotwatches(art: str) -> dict:
             log.error(ex)
             print(ex)
             continue
+    img_url = get_img(soup)
+    proc_img(link, result['diametr'], art)
     return result
+
