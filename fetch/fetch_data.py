@@ -39,7 +39,7 @@ def write(site: str) -> None:
         with open('fetch/output/output_{}.csv'.format(site), 'a', encoding='utf-8') as csvoutput:
             reader = csv.reader(csvinput)
             for row in reader:
-                log.debug('Row in input file is ' + row)
+                log.debug('Row in input file is ' + row[0])
                 if row[0] != 'article':
                     data = fetch(site, row[0])
                     writer = csv.DictWriter(csvoutput, fieldnames=data)
