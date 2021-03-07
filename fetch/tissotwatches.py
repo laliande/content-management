@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 from googleapiclient.discovery import build
 from img_proc.cloudinary import upload, get_small_img, get_big_img
+from config import log
 
 autorization_data = {
 "api_key": "AIzaSyANUOyyWbw-mnsCHM15HerBlk2tsMtRQdQ",

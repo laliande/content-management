@@ -6,6 +6,7 @@ from publish.public import publish
 import csv
 from flask import Blueprint
 import sys
+from config import log
 
 api = Blueprint('api', __name__)
 

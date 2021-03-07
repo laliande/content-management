@@ -3,6 +3,7 @@ import csv
 from fetch.hamiltonwatch import fetch_hamiltonwatch
 from fetch.tissotwatches import fetch_tissotwatches
 from fetch.longines import fetch_longines
+from config import log
 
 
 
