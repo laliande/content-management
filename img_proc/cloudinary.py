@@ -39,13 +39,12 @@ def get_small_img(d:str, art:str):
   url= 'https://res.cloudinary.com/dtmd0zvey/image/upload/e_trim:20/c_fit,{}/b_rgb:ffffff,bo_0px_solid_rgb:ffffff,c_lpad,f_jpg,g_center,h_300,o_100,q_100,w_170/{}.png'.format(width, art)
   filename= art + '.jpg'
   response=requests.get(url)
-  print(response)
   if response.status_code==200:
     with open(r'/home/anton/AI_Image/small/' + filename,'wb') as imgfile:
       imgfile.write(response.content)
-      log.info('Small img was save succsess')
+      log.info('Art: {} Diametr: {} Small img was save succsess'.format(art, d))
   else:
-    log.error(response)
+    log.error('Art: {} Diametr: {} Small img was save with error'.format(art, d))
 
 def get_big_img(art:str):
   url_2= 'https://res.cloudinary.com/dtmd0zvey/image/upload/e_trim:20/c_fit,w_440/f_jpg,q_100/'+ art +'.png'
@@ -54,8 +53,8 @@ def get_big_img(art:str):
   if response.status_code==200:
     with open(r'/home/anton/AI_Image/big/' + filename,'wb') as imgfile:
       imgfile.write(response.content)
-      log.info('Big img was save succsess')
+      log.info('Art: {}. Big img was save succsess'.format(art))
   else:
-    log.error(response)
+    log.info('Art: {}. Big img was save with error'.format(art))
 
 

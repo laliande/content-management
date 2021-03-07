@@ -54,11 +54,12 @@ def find_article(bad_article: str):
     return result
 
 def get_img_url(soup:BeautifulSoup) -> str:
-    macro_elem = soup.body.find('div', attrs = {'class':'product-mosaic__img-container'})
+    macro_elem = soup.body.find('div', attrs = {'class':'product-mosaic-modal__img-container modal-'})
     img_elem = macro_elem.findChildren("img" , recursive=False)
-    img_url = img_elem[0].attrs['src']
+    img_url = img_elem[0].attrs['data-img-src']
     log.debug('Img url: ' + img_url)
     return img_url
+
 
 def proc_img(link:str,  d:str, art:str):
     log.debug("Diametr is " + d)
@@ -163,5 +164,5 @@ def fetch_tissotwatches(art: str) -> dict:
             continue
     img_url = get_img_url(soup)
     proc_img(img_url, result['diametr'], art)
+    print('dfdf')
     return result
-
