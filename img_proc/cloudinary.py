@@ -1,12 +1,13 @@
 import requests
-# from cloudinary.uploader import upload
-# import cloudinary
+from cloudinary.uploader import upload
+import cloudinary
+from config import log
 
-# cloudinary.config(
-#   cloud_name = 'dtmd0zvey',  
-#   api_key = '336926953387248',  
-#   api_secret = 'XiFAv-ZuHYCjEnGqfxP4-XxnLhQ'  
-# )
+cloudinary.config(
+  cloud_name = 'dtmd0zvey',  
+  api_key = '336926953387248',  
+  api_secret = 'XiFAv-ZuHYCjEnGqfxP4-XxnLhQ'  
+)
 
 
 diametr_dict = {'w_85': [20.00, 21.99],
@@ -24,7 +25,7 @@ diametr_dict = {'w_85': [20.00, 21.99],
                 }
               
 
-def upload(link:str) -> None:
+def upload(link:str, art:str) -> None:
   cloudinary.uploader.upload(link, public_id = art)
 
 def get_width(d:str) -> str:
@@ -44,9 +45,9 @@ def get_small_img(d:str, art:str):
   if response.status_code==200:
     with open(r'/home/anton/AI_Image/small/' + filename,'wb') as imgfile:
       imgfile.write(response.content)
-      print("Маленькое изображение сохранено")
+      log.info('Small img was save succsess')
   else:
-    print("error")
+    log.error(response)
 
 def get_big_img(art:str):
   url_2= 'https://res.cloudinary.com/dtmd0zvey/image/upload/e_trim:20/c_fit,w_440/f_jpg,q_100/'+ art +'.png'
@@ -55,8 +56,8 @@ def get_big_img(art:str):
   if response.status_code==200:
     with open(r'/home/anton/AI_Image/big/' + filename,'wb') as imgfile:
       imgfile.write(response.content)
-      print("Большое изображение сохранено")
+      log.info('Big img was save succsess')
   else:
-    print("error")
+    log.error(response)
 
 
