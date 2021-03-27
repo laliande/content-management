@@ -4,7 +4,7 @@ from fetch.hamiltonwatch import fetch_hamiltonwatch
 from fetch.tissotwatches import fetch_tissotwatches
 from fetch.longines import fetch_longines
 from config import log
-
+from fetch.balmainwatches import fetch_balmainwatches
 
 
 def fetch(site: str, article: str) -> dict:
@@ -21,6 +21,8 @@ def fetch(site: str, article: str) -> dict:
         data = fetch_tissotwatches(article)
     elif site == 'longines':
         data = fetch_longines(article)
+    elif site == 'balmainwatches':
+        data = fetch_balmainwatches(article)
     return data
 
 
