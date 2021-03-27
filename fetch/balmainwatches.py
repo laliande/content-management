@@ -1,6 +1,11 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
+from img_proc.cloudinary import upload, get_small_img, get_big_img
 
+def proc_img(link:str,  d:str, art:str):
+    upload(link, art)
+    get_small_img(d, art)
+    get_big_img(art)
 
 def get_product_link(art:str) -> str:
     ''' Description: finds the url on the site by article
@@ -62,9 +67,9 @@ def fetch_balmainwatches(art:str) -> dict:
     html_page = urlopen(req)
     soup = BeautifulSoup(html_page, "lxml")
     result['coll'] = soup.find('span', attrs={'data-ui-id': 'page-title-wrapper'}).text
-    print(result['coll'])
     all_params = soup.find('tbody')
     get_params(all_params, result)
-    print(result)
+    img = input('Input img link for product ' + product_link)
+    proc_img(img, result['diametr'], art)
     return result
 
