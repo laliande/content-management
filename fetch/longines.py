@@ -4,8 +4,6 @@ import requests
 from config import log
 
 
-
-
 def clear_price(bad_price: str) -> str:
     ''' Description: clears the string of unfit symbols
         Input: bad string

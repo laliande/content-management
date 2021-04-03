@@ -5,6 +5,7 @@ from publish.login import login
 from publish.headers import set_publish_headers
 import sys
 import csv
+from config import log
 
 
 
@@ -18,7 +19,7 @@ def get_data() -> list:
     with open(sys.path[0] + '/fetch/output/output.csv', 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
-            log.debug('Row in file: ' + row)
+            log.debug('Row in file: ' + str(row))
             all.append(row)
     return all
 
@@ -49,7 +50,7 @@ def publish() -> str:
     response = ''
     log.info('Start publish')
     for item in data:
-        log.debug('Item for publish ' + item)
+        log.debug('Item for publish ' + str(item))
         item = encode(item)
         logs.append(item)
         URL = 'https://www.haroldltd.ru/cms2/cat/inscore.php'
@@ -58,6 +59,6 @@ def publish() -> str:
             url=URL, data=item, headers=headers, cookies=cookies)
         log.debug('Response from server ' + str(response.text))
         logs.append(str(response.text))
-    for log in logs:
-        response += log + ' '
+    for item in logs:
+        response += item + ' '
     return response

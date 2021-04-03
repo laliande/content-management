@@ -5,6 +5,7 @@ from fetch.tissotwatches import fetch_tissotwatches
 from fetch.longines import fetch_longines
 from config import log
 from fetch.balmainwatches import fetch_balmainwatches
+from fetch.certina import fetch_certina
 
 
 def fetch(site: str, article: str) -> dict:
@@ -23,6 +24,8 @@ def fetch(site: str, article: str) -> dict:
         data = fetch_longines(article)
     elif site == 'balmainwatches':
         data = fetch_balmainwatches(article)
+    elif site == 'certina':
+        data =  fetch_certina(article)
     return data
 
 

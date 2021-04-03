@@ -1,5 +1,6 @@
 import requests
 from publish.headers import set_base_headers, set_login_headers
+from config import log
 
 autorization_data = {'login': 'harold', 'password': '@topwatch'}
 
@@ -12,7 +13,7 @@ def get_sid_cookie() -> str:
     headers = set_base_headers()
     URL = 'https://www.haroldltd.ru/cms2'
     response = requests.get(url=URL, headers=headers)
-    log.debug('Sid cookie is ' + response)
+    log.debug('Sid cookie is ' + response.text)
     return response.cookies['sid']
 
 

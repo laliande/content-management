@@ -50,6 +50,7 @@ def publish_data():
     log.info('Start publish content')
     try:
         logs = publish()
+        print(logs)
         log.info('Answer from server: ' + str(logs))
         return 'logs: ' + logs
     except Exception as ex:
